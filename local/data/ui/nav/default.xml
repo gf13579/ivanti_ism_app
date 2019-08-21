@@ -1,6 +1,8 @@
-<nav search_view="search">
+<nav search_view="search" color="#CD2626">
   <view name="overview" default='true' />
-  <collection label="Advanced">
+  <view name="incidents"/>
+  <view name="service_requests"/>
+   <collection label="Advanced"> 
   <view name="search"/>
   <view name="datasets" />
   <view name="reports" />
