@@ -11,9 +11,8 @@
   </fieldset>
   <row>
     <panel>
-      <title>Incidents</title>
+      <title>Open Incidents</title>
       <single>
-        <title>Open</title>
         <search>
           <query>sourcetype="ivanti:ism:incident" | eventstats latest(_time) as lt | where _time=lt | stats count</query>
           <earliest>$timePicker1.earliest$</earliest>
@@ -38,8 +37,10 @@
         <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
+    </panel>
+    <panel>
+      <title>Breaching within 24h</title>
       <single>
-        <title>Breaching within 24h</title>
         <search>
           <query>sourcetype="ivanti:ism:incident" BreachDateTime=* | eventstats latest(_time) as lt | where _time=lt | eval breach_time = strptime(BreachDateTime,"%Y-%m-%dT%H:%M:%SZ") | eval remaining = breach_time-now() | where (remaining&gt;0 AND remaining&lt;60*60*24) | stats count</query>
           <earliest>$timePicker1.earliest$</earliest>
@@ -64,8 +65,10 @@
         <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
+    </panel>
+    <panel>
+      <title>Open P1s</title>
       <single>
-        <title>Open P1s</title>
         <search>
           <query>sourcetype="ivanti:ism:incident" Priority=1 | eventstats latest(_time) as lt | where _time=lt | stats count</query>
           <earliest>$timePicker1.earliest$</earliest>
@@ -90,8 +93,10 @@
         <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
+    </panel>
+    <panel>
+      <title>Open P2s</title>
       <single>
-        <title>Open P2s</title>
         <search>
           <query>sourcetype="ivanti:ism:incident" Priority=2 | eventstats latest(_time) as lt | where _time=lt | stats count</query>
           <earliest>$timePicker1.earliest$</earliest>
@@ -116,6 +121,110 @@
         <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
+    </panel>
+    <panel>
+      <title>Unassigned - all incidents</title>
+      <single>
+        <search>
+          <query>sourcetype="ivanti:ism:incident" Owner="null" | eventstats latest(_time) as lt | where _time=lt | stats count</query>
+          <earliest>$timePicker1.earliest$</earliest>
+          <latest>$timePicker1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x5f4884","0xdc4e41"]</option>
+        <option name="rangeValues">[0,5]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Unassigned - self service</title>
+      <single>
+        <search>
+          <query>sourcetype="ivanti:ism:incident" extracted_Source="Self Service" Owner="null" | eventstats latest(_time) as lt | where _time=lt | stats count</query>
+          <earliest>$timePicker1.earliest$</earliest>
+          <latest>$timePicker1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x5f4884","0xdc4e41"]</option>
+        <option name="rangeValues">[0,10]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Incidents and service requests raised (last 7 days)</title>
+      <chart>
+        <search>
+          <query>sourcetype="ivanti:ism:*" | dedup RecId | eval _time = strptime(CreatedDateTime,"%Y-%m-%dT%H:%M:%SZ") | eval age = now()-_time | where age &lt; (7*60*60*24) | eval type = if(sourcetype="ivanti:ism:incident","incident","service request") | timechart span=24h partial=false count by type</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsY.majorUnit">1</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="charting.seriesColors">[0x364c74, 0x5f4884]</option>
+        <option name="height">165</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
     </panel>
     <panel>
       <title>Service requests</title>
@@ -171,53 +280,6 @@
         <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Incidents raised during the last 30 days</title>
-      <chart>
-        <search>
-          <query>sourcetype="ivanti:ism:incident" | eventstats latest(_time) as lt | where _time=lt | eval _time = strptime(CreatedDateTime,"%Y-%m-%dT%H:%M:%SZ") | eval age = now()-_time | where age &lt; (30*60*60*24) | timechart span=1h count</query>
-          <earliest>-15m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
-        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
-        <option name="charting.axisLabelsY.majorUnit">1</option>
-        <option name="charting.axisTitleX.visibility">collapsed</option>
-        <option name="charting.axisTitleY.visibility">collapsed</option>
-        <option name="charting.axisTitleY2.visibility">visible</option>
-        <option name="charting.axisX.abbreviation">none</option>
-        <option name="charting.axisX.scale">linear</option>
-        <option name="charting.axisY.abbreviation">none</option>
-        <option name="charting.axisY.scale">linear</option>
-        <option name="charting.axisY2.abbreviation">none</option>
-        <option name="charting.axisY2.enabled">0</option>
-        <option name="charting.axisY2.scale">inherit</option>
-        <option name="charting.chart">area</option>
-        <option name="charting.chart.bubbleMaximumSize">50</option>
-        <option name="charting.chart.bubbleMinimumSize">10</option>
-        <option name="charting.chart.bubbleSizeBy">area</option>
-        <option name="charting.chart.nullValueMode">gaps</option>
-        <option name="charting.chart.showDataLabels">none</option>
-        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
-        <option name="charting.chart.stackMode">default</option>
-        <option name="charting.chart.style">shiny</option>
-        <option name="charting.drilldown">none</option>
-        <option name="charting.layout.splitSeries">0</option>
-        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
-        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
-        <option name="charting.legend.mode">standard</option>
-        <option name="charting.legend.placement">none</option>
-        <option name="charting.lineWidth">2</option>
-        <option name="charting.seriesColors">[0x364c74]</option>
-        <option name="height">165</option>
-        <option name="trellis.enabled">0</option>
-        <option name="trellis.scales.shared">1</option>
-        <option name="trellis.size">medium</option>
-      </chart>
     </panel>
   </row>
   <row>
@@ -468,28 +530,6 @@
         <option name="charting.drilldown">none</option>
         <option name="charting.legend.placement">none</option>
       </chart>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>All open incidents</title>
-      <table>
-        <search>
-          <query>sourcetype="ivanti:ism:incident" | eventstats latest(_time) as lt | where _time=lt
-| table IncidentNumber, Priority, LastModDateTime, Status, ProfileFullName Subject, TypeOfIncident, Urgency, extracted_Source, Service, Symptom, Owner, OwnerTeam, Impact, Email, ActualCategory, CustomerDepartment, CostPerMinute, CostPerMinute_Currency</query>
-          <earliest>$timePicker1.earliest$</earliest>
-          <latest>$timePicker1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="count">5</option>
-        <option name="dataOverlayMode">none</option>
-        <option name="drilldown">none</option>
-        <option name="percentagesRow">false</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="rowNumbers">false</option>
-        <option name="totalsRow">false</option>
-        <option name="wrap">true</option>
-      </table>
     </panel>
   </row>
   <row>
