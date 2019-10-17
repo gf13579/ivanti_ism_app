@@ -51,7 +51,7 @@
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x382633","0xf1813f"]</option>
+        <option name="rangeColors">["0xA5CC6B","0x382633","0xf1813f"]</option>
         <option name="rangeValues">[0,10]</option>
         <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>
@@ -107,7 +107,7 @@
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x5f4884","0xdc4e41"]</option>
+        <option name="rangeColors">["0xA5CC6B","0x5f4884","0xdc4e41"]</option>
         <option name="rangeValues">[0,5]</option>
         <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>
@@ -135,7 +135,7 @@
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x5f4884","0xdc4e41"]</option>
+        <option name="rangeColors">["0xA5CC6B","0x5f4884","0xdc4e41"]</option>
         <option name="rangeValues">[0,5]</option>
         <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>
@@ -163,7 +163,7 @@
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x5f4884","0xdc4e41"]</option>
+        <option name="rangeColors">["0xA5CC6B","0x5f4884","0xdc4e41"]</option>
         <option name="rangeValues">[0,10]</option>
         <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>

@@ -1,7 +1,12 @@
-<nav search_view="search">
-  <view name="search" default='true' />
+<nav search_view="search" color="#CD2626">
+  <view name="overview" default='true' />
+  <view name="incidents"/>
+  <view name="service_requests"/>
+   <collection label="Advanced"> 
+  <view name="search"/>
   <view name="datasets" />
   <view name="reports" />
   <view name="alerts" />
   <view name="dashboards" />
+  </collection>
 </nav>
