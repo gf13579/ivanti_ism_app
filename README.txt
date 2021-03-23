@@ -9,6 +9,10 @@ ivanti_ism_app
 
 Update History
 ----------------------------
+       1.0.1a Mar 03, 2021
+       --------
+       Test for VS Code -> GitHub integration
+
        1.0.1 Oct 17, 2019
        --------
        Removed local.meta.
