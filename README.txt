@@ -11,7 +11,7 @@ Update History
 ----------------------------
        1.0.1a Mar 03, 2021
        --------
-       Test for VS Code -> GitHub integration
+       Another test for VS Code -> GitHub integration
 
        1.0.1 Oct 17, 2019
        --------
